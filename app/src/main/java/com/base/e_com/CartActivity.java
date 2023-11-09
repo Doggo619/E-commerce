@@ -50,6 +50,28 @@ public class CartActivity extends AppCompatActivity {
                     productViewModel.removeFromCart(product);
                 }
             }
+
+            @Override
+            public void onIncrementClick(int position) {
+                ProductEntity product = cartProductAdapter.getProductAt(position);
+                if (product != null) {
+                    product.incrementQuantity();
+                    productViewModel.updateProduct(product);
+                }
+            }
+
+            @Override
+            public void onDecrementClick(int position) {
+                ProductEntity product = cartProductAdapter.getProductAt(position);
+                if (product != null) {
+                    if (product.getQuantity() > 1) {
+                        product.decrementQuantity();
+                        productViewModel.updateProduct(product);
+                    } else {
+                        Toast.makeText(CartActivity.this, "Quantity cannot be zero", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
         });
 
         homeButton = findViewById(R.id.btn_home);

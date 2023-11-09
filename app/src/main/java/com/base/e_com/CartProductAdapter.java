@@ -30,6 +30,8 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
     }
     public interface OnItemClickListener {
         void onRemoveFromCartClick(int position);
+        void onIncrementClick(int position);
+        void onDecrementClick(int position);
     }
     @NonNull
     @Override
@@ -44,7 +46,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
             ProductEntity product = products.get(position);
             holder.productName.setText(product.getName());
             holder.productPrice.setText("Price: ₹" +product.getPrice());
-            holder.productQuantity.setText(String.valueOf(product.getQuantity() + 1));
+            holder.productQuantity.setText(String.valueOf(product.getQuantity()));
 
             if (!TextUtils.isEmpty(product.getImageUrl())) {
                 Picasso.get()
@@ -54,6 +56,29 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
             } else {
                 holder.productImage.setImageResource(R.drawable.ic_email);
             }
+            holder.increment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = holder.getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onIncrementClick(position);
+                        }
+                    }
+                }
+            });
+
+            holder.decrement.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = holder.getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onDecrementClick(position);
+                        }
+                    }
+                }
+            });
             holder.removeFromCart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

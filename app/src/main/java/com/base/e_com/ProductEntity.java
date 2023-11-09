@@ -79,5 +79,15 @@ public class ProductEntity {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+    public void incrementQuantity() {
+        quantity++;
+    }
+
+    public void decrementQuantity() {
+        if (quantity > 1) {
+            quantity--;
+        }
+    }
+
 }
 
