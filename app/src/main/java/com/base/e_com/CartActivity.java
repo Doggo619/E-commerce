@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textview.MaterialTextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +26,14 @@ public class CartActivity extends AppCompatActivity {
     private CartProductAdapter cartProductAdapter;
     private RecyclerView recyclerView;
     private ProductViewModel productViewModel;
+    private MaterialTextView totalPrice;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
         recyclerView = findViewById(R.id.recyclerView2);
+        totalPrice = findViewById(R.id.footer);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         cartProductAdapter = new CartProductAdapter(this);
 
@@ -39,6 +42,9 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<ProductEntity> cartProducts) {
                 cartProductAdapter.setProducts(cartProducts);
+
+                double total = calculateTotalPrice(cartProducts);
+                totalPrice.setText("Total Price: ₹" + String.format("%.2f", total));
             }
         });
 
@@ -86,6 +92,14 @@ public class CartActivity extends AppCompatActivity {
         recyclerView.setAdapter(cartProductAdapter);
 
 
+    }
+    private double calculateTotalPrice(List<ProductEntity> products) {
+        double total = 0;
+        for (ProductEntity product : products) {
+            double price = Double.parseDouble(product.getPrice());
+            total += price * product.getQuantity();
+        }
+        return total;
     }
 
 }
