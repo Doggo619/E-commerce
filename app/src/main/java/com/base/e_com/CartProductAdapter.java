@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -45,7 +44,9 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         if (products != null) {
             ProductEntity product = products.get(position);
             holder.productName.setText(product.getName());
-            holder.productPrice.setText("Price: ₹" +product.getPrice());
+            double price = Double.parseDouble(product.getPrice());
+            double totalPrice = price * product.getQuantity();
+            holder.productPrice.setText("Price: ₹" + String.format("%.2f", totalPrice));
             holder.productQuantity.setText(String.valueOf(product.getQuantity()));
 
             if (!TextUtils.isEmpty(product.getImageUrl())) {
