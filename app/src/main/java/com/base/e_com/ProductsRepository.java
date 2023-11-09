@@ -26,6 +26,10 @@ public class ProductsRepository {
     public LiveData<List<ProductEntity>> getAllProducts() {
         return allProducts;
     }
+    public LiveData<List<ProductEntity>> getCartProducts() {
+        // Modify this method to return products where isInCart is true
+        return productsDao.getCartProducts();
+    }
 
     public void insertProduct(ProductEntity product) {
         executorService.execute(() -> {

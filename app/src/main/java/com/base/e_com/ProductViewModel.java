@@ -32,18 +32,16 @@ public class ProductViewModel extends AndroidViewModel {
 
     public void addToCart(ProductEntity product) {
         product.setInCart(true);
-        product.setQuantity(product.getQuantity() + 1);
         updateProduct(product);
     }
 
     public void removeFromCart(ProductEntity product) {
-        if (product.getQuantity() > 0) {
-            product.setQuantity(product.getQuantity() - 1);
-            if (product.getQuantity() == 0) {
-                product.setInCart(false);
-            }
-            updateProduct(product);
-        }
+        product.setInCart(false);
+        updateProduct(product);
     }
+    public LiveData<List<ProductEntity>> getCartProducts() {
+        return repository.getCartProducts();
+    }
+
 
 }

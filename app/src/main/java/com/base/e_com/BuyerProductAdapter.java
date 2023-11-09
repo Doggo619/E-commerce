@@ -50,13 +50,6 @@ public class BuyerProductAdapter extends RecyclerView.Adapter<BuyerProductAdapte
             holder.productPrice.setText("Price: ₹" + product.getDiscountedPrice());
             holder.productPrice.setPaintFlags(holder.productPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
-            if (product.isInCart()) {
-                holder.addToCartButton.setText("Remove from Cart");
-                holder.addToCartButton.setEnabled(true);
-            } else {
-                holder.addToCartButton.setText("Add to Cart");
-                holder.addToCartButton.setEnabled(true);
-            }
             if (!TextUtils.isEmpty(product.getImageUrl())) {
                 Picasso.get()
                         .load(product.getImageUrl())
@@ -64,6 +57,11 @@ public class BuyerProductAdapter extends RecyclerView.Adapter<BuyerProductAdapte
                         .into(holder.productImage);
             } else {
                 holder.productImage.setImageResource(R.drawable.ic_email);
+            }
+            if (product.isInCart()) {
+                holder.addToCartButton.setText("Remove from Cart");
+            } else {
+                holder.addToCartButton.setText("Add to Cart");
             }
 
             holder.addToCartButton.setOnClickListener(new View.OnClickListener() {
@@ -73,7 +71,6 @@ public class BuyerProductAdapter extends RecyclerView.Adapter<BuyerProductAdapte
                         int position = holder.getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
                             listener.onAddToCartClick(position);
-
                         }
                     }
                 }
@@ -114,13 +111,5 @@ public class BuyerProductAdapter extends RecyclerView.Adapter<BuyerProductAdapte
         }
     }
 
-    public void updateCartItemStatus(int position, boolean isInCart) {
-        // Update the cart item status (e.g., change button text or style)
-        if (position >= 0 && position < products.size()) {
-            ProductEntity product = products.get(position);
-            product.setInCart(isInCart);
-            notifyItemChanged(position);
-        }
-    }
 }
 

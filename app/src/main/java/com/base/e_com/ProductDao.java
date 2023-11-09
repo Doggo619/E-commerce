@@ -29,6 +29,9 @@ public interface ProductDao {
     LiveData<List<ProductEntity>> getAllProducts();
     @Query("SELECT * FROM products WHERE userId = :userId")
     LiveData<List<ProductEntity>> getProductsForUser(String userId);
+    @Query("SELECT * FROM products WHERE isInCart = 1")
+    LiveData<List<ProductEntity>> getCartProducts();
+
 
     @Query("SELECT * FROM products WHERE id = :productId")
     ProductEntity getProductById(int productId);

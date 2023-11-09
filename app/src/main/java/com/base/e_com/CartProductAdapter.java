@@ -1,13 +1,13 @@
 package com.base.e_com;
 
 import android.content.Context;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,128 +18,89 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.CartItemViewHolder> {
-
-    private List<CartItem> cartItems;
-    private List<CartEntity> cart;
+public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.ProductViewHolder> {
+    private List<ProductEntity> products;
     private Context context;
     private OnItemClickListener listener;
-    CartActivity cartActivity;
-
-    public CartProductAdapter(Context context, CartActivity cartActivity) {
+    public CartProductAdapter(Context context){
         this.context = context;
-        this.cartActivity = cartActivity;
     }
-
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
-
+    public interface OnItemClickListener {
+        void onRemoveFromCartClick(int position);
+    }
     @NonNull
     @Override
-    public CartItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CartProductAdapter.ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_item, parent, false);
-        return new CartItemViewHolder(view);
+        return new ProductViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CartItemViewHolder holder, int position) {
-        if (cartItems != null) {
-            CartItem cartItem = cartItems.get(position);
-            ProductEntity product = cartItem.getProduct();
+    public void onBindViewHolder(@NonNull CartProductAdapter.ProductViewHolder holder, int position) {
+        if (products != null) {
+            ProductEntity product = products.get(position);
+            holder.productName.setText(product.getName());
+            holder.productPrice.setText("Price: ₹" +product.getPrice());
+            holder.productQuantity.setText(String.valueOf(product.getQuantity() + 1));
 
-            holder.productNameTextView.setText(product.getName());
-            holder.productQuantityTextView.setText(String.valueOf(cartItem.getQuantity()));
-            holder.productPriceTextView.setText("Price: ₹" + product.getPrice());
-            Picasso.get()
-                    .load(product.getImageUrl())
-                            .into(holder.productImageView);
-
-            // Set onClickListener for your buttons
-            holder.incrementButton.setOnClickListener(new View.OnClickListener() {
+            if (!TextUtils.isEmpty(product.getImageUrl())) {
+                Picasso.get()
+                        .load(product.getImageUrl())
+                        .error(R.drawable.ic_delete)
+                        .into(holder.productImage);
+            } else {
+                holder.productImage.setImageResource(R.drawable.ic_email);
+            }
+            holder.removeFromCart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("CartAdapter", "Increment button clicked");
-                    if (listener != null) {
-                        listener.onIncrementClick(holder.getAdapterPosition());
-                        notifyItemChanged(holder.getAdapterPosition());
-                        }
-                    }
-            });
-
-            holder.decrementButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) {
-                        listener.onDecrementClick(holder.getAdapterPosition());
-                        notifyItemChanged(holder.getAdapterPosition());
-                    }
-                }
-            });
-
-            holder.removeFromCartButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d("remove button", "clicked r");
-                    Toast.makeText(cartActivity, "clicked remove from cart", Toast.LENGTH_SHORT).show();
                     if (listener != null) {
                         int position = holder.getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
                             listener.onRemoveFromCartClick(position);
-                            notifyDataSetChanged();
-                            Toast.makeText(context.getApplicationContext(), "touched", Toast.LENGTH_SHORT).show();
-                            Log.d("ButtonClicked", "Remove from Cart clicked");
                         }
                     }
                 }
             });
+
         }
     }
 
     @Override
     public int getItemCount() {
-        return (cartItems != null) ? cartItems.size() : 0;
-    }
-    public List<CartItem> getCartItems() {
-        return cartItems;
+        return (products != null) ? products.size() : 0;
     }
 
-    public void setCartItems(List<CartItem> cartItems) {
-        this.cartItems = cartItems;
+    public void setProducts(List<ProductEntity> cartProducts) {
+        this.products = cartProducts;
         notifyDataSetChanged();
     }
-
-    public CartEntity getProductAt(int position) {
-        if (cart != null && position >= 0 && position < cart.size()) {
-            return cart.get(position);
+    public ProductEntity getProductAt(int position) {
+        if (products != null && position >= 0 && position < products.size()) {
+            return products.get(position);
         }
         return null;
     }
 
+    public class ProductViewHolder extends RecyclerView.ViewHolder {
+        ImageView productImage;
+        MaterialTextView productName, productPrice, productQuantity;
+        ImageButton increment, decrement;
+        MaterialButton removeFromCart;
 
-
-    public class CartItemViewHolder extends RecyclerView.ViewHolder {
-        MaterialTextView productNameTextView, productQuantityTextView, productPriceTextView;
-        ImageButton incrementButton, decrementButton;
-        MaterialButton removeFromCartButton;
-        ImageView productImageView;
-
-        public CartItemViewHolder(@NonNull View itemView) {
+        public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
-            productImageView = itemView.findViewById(R.id.iv_productImage);
-            productNameTextView = itemView.findViewById(R.id.tv_productName);
-            productQuantityTextView = itemView.findViewById(R.id.tv_quantity);
-            productPriceTextView = itemView.findViewById(R.id.tv_productPrice);
-            incrementButton = itemView.findViewById(R.id.btn_increment);
-            decrementButton = itemView.findViewById(R.id.btn_decrement);
-            removeFromCartButton = itemView.findViewById(R.id.btn_removefromcart);
+            productImage = itemView.findViewById(R.id.iv_productImage);
+            productName = itemView.findViewById(R.id.tv_productName);
+            productPrice = itemView.findViewById(R.id.tv_productPrice);
+            productQuantity = itemView.findViewById(R.id.tv_quantity);
+            increment = itemView.findViewById(R.id.btn_increment);
+            decrement = itemView.findViewById(R.id.btn_decrement);
+            removeFromCart = itemView.findViewById(R.id.btn_removefromcart);
         }
-    }
-
-    public interface OnItemClickListener {
-        void onIncrementClick(int position);
-        void onDecrementClick(int position);
-        void onRemoveFromCartClick(int position);
     }
 }
 
