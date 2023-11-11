@@ -76,6 +76,8 @@ public class BuyerActivity extends AppCompatActivity {
                     intent.putExtra("discountedPrice", product.getDiscountedPrice());
                     intent.putExtra("image", product.getImageUrl());
                     intent.putExtra("description", product.getDescription());
+                    String[] imagePathsArray = product.getImagePaths().toArray(new String[0]);
+                    intent.putExtra("imagePaths", imagePathsArray);
                     startActivity(intent);
                 }
             }

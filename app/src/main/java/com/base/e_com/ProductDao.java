@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
 import java.util.List;
@@ -35,6 +36,15 @@ public interface ProductDao {
 
     @Query("SELECT * FROM products WHERE id = :productId")
     ProductEntity getProductById(int productId);
+    @Transaction
+    @Query("SELECT * FROM products WHERE id = :productId")
+    LiveData<ProductWithImages> getProductWithImagesById(int productId);
+
+    @Insert
+    void insertImage(ProductImageEntity image);
+
+    @Query("SELECT * FROM product_images WHERE productId = :productId")
+    LiveData<List<ProductImageEntity>> getImagesForProduct(int productId);
 
 }
 

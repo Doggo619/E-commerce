@@ -4,22 +4,34 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class product_details extends AppCompatActivity {
     ImageView image;
     TextView name, price, discountedPrice, description;
     MaterialButton addToCart;
     ProductViewModel productViewModel;
+    ViewPager2 viewPager;
+    ImageSliderAdapter imageSliderAdapter;
+    private static final int YOUR_REQUEST_CODE = 1000;
 
 
     @Override
@@ -31,8 +43,12 @@ public class product_details extends AppCompatActivity {
         price = findViewById(R.id.tv_price);
         discountedPrice = findViewById(R.id.tv_discountedPrice);
         description = findViewById(R.id.tv_description);
-        image = findViewById(R.id.iv_image);
         addToCart = findViewById(R.id.btn_addtocart);
+        RecyclerView recyclerView = findViewById(R.id.recycler);
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add("");
+
+
 
         Intent intent = getIntent();
         int productId = intent.getIntExtra("productId", 0);
@@ -41,24 +57,34 @@ public class product_details extends AppCompatActivity {
         String productDiscountPrice = intent.getStringExtra("discountedPrice");
         String productDescription = intent.getStringExtra("description");
         String productImage = intent.getStringExtra("image");
+        String[] imagePathsArray = intent.getStringArrayExtra("imagePaths");
+        List<String> imagePathsList = Arrays.asList(imagePathsArray);
+
+        ImageAdapter adapter = new ImageAdapter(product_details.this, imagePathsList);
+        recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(ImageView imageView, String path) {
+                Toast.makeText(product_details.this, "Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         name.setText(productName);
         price.setText("Original Price : ₹" + productDiscountPrice);
         discountedPrice.setText("₹" + productPrice + "/-");
         price.setPaintFlags(price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         description.setText(productDescription);
-        Picasso.get()
-                .load(productImage)
-                .error(R.drawable.ic_email)
-                .into(image);
+
+//        Picasso.get()
+//                .load(productImage)
+//                .error(R.drawable.ic_email)
+//                .into(image);
         productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
 
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LiveData<ProductEntity> productLiveData = productViewModel.getProductById(productId);
-
-                // Observe the LiveData
                 productLiveData.observe(product_details.this, new Observer<ProductEntity>() {
                     @Override
                     public void onChanged(ProductEntity product) {
@@ -70,8 +96,6 @@ public class product_details extends AppCompatActivity {
                                 productViewModel.addToCart(product);
                                 addToCart.setText("Remove from Cart");
                             }
-
-                            // Remove the observer to avoid memory leaks
                             productLiveData.removeObserver(this);
                         }
                     }
@@ -79,5 +103,13 @@ public class product_details extends AppCompatActivity {
             }
         });
 
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == YOUR_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            Uri selectedImageUri = data.getData();
+
+        }
     }
 }

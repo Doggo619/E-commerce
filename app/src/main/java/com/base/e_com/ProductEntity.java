@@ -6,8 +6,14 @@ import android.widget.TextView;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
+import androidx.room.Relation;
+import androidx.room.TypeConverters;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(tableName = "products")
+@TypeConverters(Converters.class)
 public class ProductEntity {
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -17,10 +23,13 @@ public class ProductEntity {
     private String discountedPrice;
     private String imageUrl;
     private String description;
+    private List<String> imagePaths;
     private boolean isInCart;
     private int quantity;
 
-
+    public ProductEntity() {
+        imagePaths = new ArrayList<>();
+    }
     public int getId() {
         return id;
     }
@@ -76,6 +85,15 @@ public class ProductEntity {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public List<String> getImagePaths() {
+        return imagePaths;
+    }
+
+    public void setImagePaths(List<String> imagePaths) {
+        this.imagePaths = imagePaths;
+    }
+
 
     public boolean isInCart() {
         return isInCart;

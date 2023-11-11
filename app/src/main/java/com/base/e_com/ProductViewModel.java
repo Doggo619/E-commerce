@@ -44,6 +44,14 @@ public class ProductViewModel extends AndroidViewModel {
     public LiveData<List<ProductEntity>> getCartProducts() {
         return repository.getCartProducts();
     }
+    public void addImagePathToProduct(int productId, String imagePath) {
+        repository.addImagePathToProduct(productId, imagePath);
+    }
+    public LiveData<List<ProductImageEntity>> getImagesForProduct(int productId) {
+        return repository.getImagesForProduct(productId);
+    }
 
-
+    public void insertImage(ProductImageEntity image) {
+        repository.insertImage(image);
+    }
 }

@@ -33,7 +33,22 @@ public class ProductsRepository {
 
         return result;
     }
+    public void addImagePathToProduct(int productId, String imagePath) {
+        executorService.execute(() -> {
+            ProductEntity product = productsDao.getProductById(productId);
+            if (product != null) {
+                product.getImagePaths().add(imagePath);
+                productsDao.updateProducts(product);
+            }
+        });
+    }
+    public LiveData<List<ProductImageEntity>> getImagesForProduct(int productId) {
+        return productsDao.getImagesForProduct(productId);
+    }
 
+    public void insertImage(ProductImageEntity image) {
+        executorService.execute(() -> productsDao.insertImage(image));
+    }
     public LiveData<List<ProductEntity>> getAllProducts() {
         return allProducts;
     }
