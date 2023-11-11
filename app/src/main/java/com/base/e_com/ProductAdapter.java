@@ -62,6 +62,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             holder.productPrice.setText("Discounted Price: ₹" +  product.getPrice());
             holder.productDiscountedPrice.setText("Price: ₹" + product.getDiscountedPrice());
             holder.productDiscountedPrice.setPaintFlags(holder.productDiscountedPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.productDescription.setText(product.getDescription());
             if (!TextUtils.isEmpty(product.getImageUrl())) {
                 Picasso.get()
                         .load(product.getImageUrl())
@@ -116,7 +117,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     public class ProductViewHolder extends RecyclerView.ViewHolder {
         ImageView productImage;
-        MaterialTextView productName, productPrice, productDiscountedPrice;
+        MaterialTextView productName, productPrice, productDiscountedPrice, productDescription;
         ImageButton editButton, deleteButton;
 
         public ProductViewHolder(@NonNull View itemView) {
@@ -125,6 +126,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             productName = itemView.findViewById(R.id.tv_productName);
             productPrice = itemView.findViewById(R.id.tv_productPrice);
             productDiscountedPrice = itemView.findViewById(R.id.tv_productDiscountedPrice);
+            productDescription = itemView.findViewById(R.id.tv_productDescription);
             editButton = itemView.findViewById(R.id.btn_edit);
             deleteButton = itemView.findViewById(R.id.btn_delete);
         }

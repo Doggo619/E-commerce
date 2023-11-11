@@ -59,6 +59,7 @@ public class ViewProducts extends AppCompatActivity implements ProductAdapter.On
             String price = product.getPrice();
             String discountedPrice = product.getDiscountedPrice();
             String image = product.getImageUrl();
+            String description = product.getDescription();
 
             Intent intent = new Intent(ViewProducts.this, EditProductActivity.class);
             intent.putExtra("productId", product.getId());
@@ -67,6 +68,7 @@ public class ViewProducts extends AppCompatActivity implements ProductAdapter.On
             intent.putExtra("price", price);
             intent.putExtra("discountedPrice", discountedPrice);
             intent.putExtra("image", image);
+            intent.putExtra("description", description);
 
             startActivity(intent);
         } else {
@@ -92,4 +94,5 @@ public class ViewProducts extends AppCompatActivity implements ProductAdapter.On
         builder.setNegativeButton("Cancel", null); // Do nothing on cancel
         builder.create().show();
     }
+
 }

@@ -1,5 +1,8 @@
 package com.base.e_com;
 
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
@@ -13,8 +16,10 @@ public class ProductEntity {
     private String price;
     private String discountedPrice;
     private String imageUrl;
+    private String description;
     private boolean isInCart;
     private int quantity;
+
 
     public int getId() {
         return id;
@@ -62,6 +67,14 @@ public class ProductEntity {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public boolean isInCart() {

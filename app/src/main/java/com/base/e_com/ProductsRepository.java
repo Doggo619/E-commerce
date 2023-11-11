@@ -3,6 +3,7 @@ package com.base.e_com;
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -21,6 +22,16 @@ public class ProductsRepository {
     }
     public LiveData<List<ProductEntity>> getProductsForUser(String userId) {
         return productsDao.getProductsForUser(userId);
+    }
+    public LiveData<ProductEntity> getProductById(int productId) {
+        MutableLiveData<ProductEntity> result = new MutableLiveData<>();
+
+        executorService.execute(() -> {
+            ProductEntity product = productsDao.getProductById(productId);
+            result.postValue(product);
+        });
+
+        return result;
     }
 
     public LiveData<List<ProductEntity>> getAllProducts() {

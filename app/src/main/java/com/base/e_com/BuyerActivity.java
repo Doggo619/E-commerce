@@ -23,7 +23,6 @@ public class BuyerActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private BuyerProductAdapter productAdapter;
     private ProductViewModel productViewModel;
-    private ProductEntity productEntity;
     private SharedPreferences cartPrefs;
     private FloatingActionButton cartButton;
 
@@ -47,6 +46,11 @@ public class BuyerActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<ProductEntity> products) {
                 productAdapter.setProducts(products);
+                for (ProductEntity product : products) {
+                    if (product.isInCart()) {
+
+                    }
+                }
             }
         });
         productAdapter.setOnItemClickListener(new BuyerProductAdapter.OnItemClickListener() {
@@ -59,6 +63,20 @@ public class BuyerActivity extends AppCompatActivity {
                     } else {
                         productViewModel.addToCart(product);
                     }
+                }
+            }
+
+            @Override
+            public void onCardClick(int position, ProductEntity product) {
+                if (product != null) {
+                    Intent intent = new Intent(BuyerActivity.this, product_details.class);
+                    intent.putExtra("productId", product.getId());
+                    intent.putExtra("name", product.getName());
+                    intent.putExtra("price", product.getPrice());
+                    intent.putExtra("discountedPrice", product.getDiscountedPrice());
+                    intent.putExtra("image", product.getImageUrl());
+                    intent.putExtra("description", product.getDescription());
+                    startActivity(intent);
                 }
             }
         });

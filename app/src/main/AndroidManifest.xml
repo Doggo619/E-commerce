@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Ecom"
         tools:targetApi="31">
         <activity
+            android:name=".product_details"
+            android:exported="false" />
+        <activity
             android:name=".CartActivity"
             android:exported="false" />
         <activity
@@ -31,9 +34,6 @@
             android:exported="false" />
         <activity
             android:name=".BuyerActivity"
-            android:exported="false" />
-        <activity
-            android:name=".SellerDashboardActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"

@@ -15,7 +15,7 @@ import com.squareup.picasso.Target;
 
 public class EditProductActivity extends AppCompatActivity {
 
-    private TextInputEditText name, price, discountedPrice, image;
+    private TextInputEditText name, price, discountedPrice, image, description;
     private TextInputLayout tvName, tvPrice, tvDiscountedPrice, tvImage;
     private MaterialButton updateButton;
     private ProductViewModel productViewModel;
@@ -28,6 +28,7 @@ public class EditProductActivity extends AppCompatActivity {
         discountedPrice = findViewById(R.id.et_discountedPrice);
         price = findViewById(R.id.et_price);
         image = findViewById(R.id.et_image);
+        description = findViewById(R.id.et_description);
         updateButton = findViewById(R.id.btn_add);
 
         productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
@@ -38,6 +39,7 @@ public class EditProductActivity extends AppCompatActivity {
         String productPrice = getIntent().getStringExtra("price");
         String productDiscountedPrice = getIntent().getStringExtra("discountedPrice");
         String productImage = getIntent().getStringExtra("image");
+        String productDescription = getIntent().getStringExtra("description");
 
         name.setText(productName);
         discountedPrice.setText(productDiscountedPrice);
@@ -46,6 +48,7 @@ public class EditProductActivity extends AppCompatActivity {
         discountedPrice.setText(productDiscountedPrice);
         price.setText(productPrice);
         image.setText(productImage);
+        description.setText(productDescription);
 
 
         updateButton.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +58,7 @@ public class EditProductActivity extends AppCompatActivity {
                 String updatedPrice = price.getText().toString();
                 String updatedDiscountedPrice = discountedPrice.getText().toString();
                 String updatedImage = image.getText().toString();
+                String updatedDescription = description.getText().toString();
 
                 ProductEntity updatedProduct = new ProductEntity();
                 updatedProduct.setId(productId);
@@ -63,6 +67,7 @@ public class EditProductActivity extends AppCompatActivity {
                 updatedProduct.setPrice(updatedPrice);
                 updatedProduct.setDiscountedPrice(updatedDiscountedPrice);
                 updatedProduct.setImageUrl(updatedImage);
+                updatedProduct.setDescription(updatedDescription);
 
                 productViewModel.updateProduct(updatedProduct);
 

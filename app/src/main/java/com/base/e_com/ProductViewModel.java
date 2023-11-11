@@ -34,7 +34,9 @@ public class ProductViewModel extends AndroidViewModel {
         product.setInCart(true);
         updateProduct(product);
     }
-
+    public LiveData<ProductEntity> getProductById(int productId) {
+        return repository.getProductById(productId);
+    }
     public void removeFromCart(ProductEntity product) {
         product.setInCart(false);
         updateProduct(product);

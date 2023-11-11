@@ -15,7 +15,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 public class AddProducts extends AppCompatActivity {
     private TextInputLayout tvProductName, tvProductPrice, tvDiscountedPrice, tvImageUrl;
-    private TextInputEditText etProductName, etProductPrice, etDiscountedPrice, etImageUrl;
+    private TextInputEditText etProductName, etProductPrice, etDiscountedPrice, etImageUrl, etDescription;
     private MaterialButton btnAddProduct;
     ProductEntity productEntity;
 
@@ -32,6 +32,7 @@ public class AddProducts extends AppCompatActivity {
         etProductPrice = findViewById(R.id.et_price);
         etDiscountedPrice = findViewById(R.id.et_discountedPrice);
         etImageUrl = findViewById(R.id.et_image);
+        etDescription = findViewById(R.id.et_description);
         btnAddProduct = findViewById(R.id.btn_add);
 
         btnAddProduct.setOnClickListener(new View.OnClickListener() {
@@ -46,6 +47,7 @@ public class AddProducts extends AppCompatActivity {
                 productEntity.setPrice(etProductPrice.getText().toString());
                 productEntity.setDiscountedPrice(etDiscountedPrice.getText().toString());
                 productEntity.setImageUrl(etImageUrl.getText().toString());
+                productEntity.setDescription(etDescription.getText().toString());
 
 
                 if (validateProductData(productEntity)) {
@@ -103,7 +105,6 @@ public class AddProducts extends AppCompatActivity {
         } else {
             tvProductPrice.setError(null);
         }
-
         return isValid;
     }
 }

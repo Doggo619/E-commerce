@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textview.MaterialTextView;
 import com.squareup.picasso.Picasso;
 import java.util.List;
@@ -32,6 +33,7 @@ public class BuyerProductAdapter extends RecyclerView.Adapter<BuyerProductAdapte
 
     public interface OnItemClickListener {
         void onAddToCartClick(int position);
+        void onCardClick(int position, ProductEntity product);
     }
 
     @NonNull
@@ -75,6 +77,17 @@ public class BuyerProductAdapter extends RecyclerView.Adapter<BuyerProductAdapte
                     }
                 }
             });
+            holder.card.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = holder.getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onCardClick(position, products.get(position));
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -98,6 +111,7 @@ public class BuyerProductAdapter extends RecyclerView.Adapter<BuyerProductAdapte
     public class ProductViewHolder extends RecyclerView.ViewHolder {
         ImageView productImage;
         MaterialTextView productName, productPrice, productDiscountedPrice;
+        MaterialCardView card;
 
         MaterialButton addToCartButton;
 
@@ -108,6 +122,8 @@ public class BuyerProductAdapter extends RecyclerView.Adapter<BuyerProductAdapte
             productPrice = itemView.findViewById(R.id.tv_productDiscountedPrice);
             productDiscountedPrice = itemView.findViewById(R.id.tv_productPrice);
             addToCartButton = itemView.findViewById(R.id.btn_addtocart);
+            card = itemView.findViewById(R.id.cardView);
+
         }
     }
 
