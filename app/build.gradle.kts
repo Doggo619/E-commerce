@@ -48,6 +48,4 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
     implementation("com.sun.mail:android-mail:1.6.2")
     implementation("com.sun.mail:android-activation:1.6.2")
-    implementation("com.github.bumptech.glide:glide:4.16.0")
-
 }

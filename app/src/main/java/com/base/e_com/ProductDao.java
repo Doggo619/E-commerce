@@ -14,37 +14,28 @@ import java.util.List;
 public interface ProductDao {
     @Insert
     long insertProduct(ProductEntity product);
-
     @Update
     void updateProducts(ProductEntity product);
     @Delete
     void deleteProducts(ProductEntity product);
-
     @Insert
     void addUserProductMapping(UserProductMapping mapping);
-
     @Query("SELECT productId FROM user_product_mapping WHERE userId = :userId")
     List<Integer> getProductIdsForUser(String userId);
-
     @Query("SELECT * FROM products")
     LiveData<List<ProductEntity>> getAllProducts();
     @Query("SELECT * FROM products WHERE userId = :userId")
     LiveData<List<ProductEntity>> getProductsForUser(String userId);
     @Query("SELECT * FROM products WHERE isInCart = 1")
     LiveData<List<ProductEntity>> getCartProducts();
-
-
     @Query("SELECT * FROM products WHERE id = :productId")
     ProductEntity getProductById(int productId);
     @Transaction
     @Query("SELECT * FROM products WHERE id = :productId")
     LiveData<ProductWithImages> getProductWithImagesById(int productId);
-
     @Insert
     void insertImage(ProductImageEntity image);
-
     @Query("SELECT * FROM product_images WHERE productId = :productId")
     LiveData<List<ProductImageEntity>> getImagesForProduct(int productId);
-
 }
 

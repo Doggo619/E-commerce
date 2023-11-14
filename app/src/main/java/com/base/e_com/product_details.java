@@ -1,5 +1,6 @@
 package com.base.e_com;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -9,6 +10,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,8 +32,9 @@ public class product_details extends AppCompatActivity {
     MaterialButton addToCart;
     ProductViewModel productViewModel;
     ViewPager2 viewPager;
-    ImageSliderAdapter imageSliderAdapter;
-    private static final int YOUR_REQUEST_CODE = 1000;
+    ImageAdapter adapter;
+    private static final int YOUR_REQUEST_CODE = 3000;
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE =1000;
 
 
     @Override
@@ -60,7 +63,7 @@ public class product_details extends AppCompatActivity {
         String[] imagePathsArray = intent.getStringArrayExtra("imagePaths");
         List<String> imagePathsList = Arrays.asList(imagePathsArray);
 
-        ImageAdapter adapter = new ImageAdapter(product_details.this, imagePathsList);
+        adapter = new ImageAdapter(product_details.this, imagePathsList);
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
             @Override
@@ -109,7 +112,23 @@ public class product_details extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == YOUR_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             Uri selectedImageUri = data.getData();
-
+            Picasso.get()
+                    .load(selectedImageUri)
+                    .error(R.drawable.ic_image)
+                    .into(image);
         }
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                adapter.notifyDataSetChanged();
+            } else {
+                Toast.makeText(this, "Permission denied. Cannot load images.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 }
