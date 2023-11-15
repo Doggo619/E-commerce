@@ -2,13 +2,17 @@ package com.base.e_com;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Paint;
@@ -35,6 +39,7 @@ public class product_details extends AppCompatActivity {
     ImageAdapter adapter;
     private static final int YOUR_REQUEST_CODE = 3000;
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE =1000;
+    Context context = this;
 
 
     @Override
@@ -62,9 +67,12 @@ public class product_details extends AppCompatActivity {
         String productImage = intent.getStringExtra("image");
         String[] imagePathsArray = intent.getStringArrayExtra("imagePaths");
         List<String> imagePathsList = Arrays.asList(imagePathsArray);
-
-        adapter = new ImageAdapter(product_details.this, imagePathsList);
-        recyclerView.setAdapter(adapter);
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            adapter = new ImageAdapter(product_details.this, imagePathsList);
+            recyclerView.setAdapter(adapter);
+        } else {
+            ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+        }
         adapter.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
             @Override
             public void onClick(ImageView imageView, String path) {
