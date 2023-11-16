@@ -2,6 +2,8 @@ package com.base.e_com;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +11,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
@@ -21,10 +25,13 @@ import java.util.List;
 public class AddProducts extends AppCompatActivity {
     private TextInputLayout tvProductName, tvProductPrice, tvDiscountedPrice, tvImageUrl;
     private TextInputEditText etProductName, etProductPrice, etDiscountedPrice, etImageUrl, etDescription;
-    private MaterialButton btnAddProduct, btnUploadImages;
+    private MaterialButton btnAddProduct, btnMoreImages;
     ProductEntity productEntity;
     private List<String> selectedImagePaths = new ArrayList<>();
-    private static final int PICK_IMAGES_REQUEST_CODE = 1;
+    private List<String> imageUrls = new ArrayList<>();
+    private ConstraintLayout constraintLayout;
+    private LinearLayout imagesLayout;
+    private int imageCount = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +48,17 @@ public class AddProducts extends AppCompatActivity {
         etImageUrl = findViewById(R.id.et_image);
         etDescription = findViewById(R.id.et_description);
         btnAddProduct = findViewById(R.id.btn_add);
-        btnUploadImages = findViewById(R.id.btn_uploadImages);
+        constraintLayout = findViewById(R.id.constraintLayout);
+        btnMoreImages = findViewById(R.id.btn_moreImages);
+        imagesLayout = findViewById(R.id.layout_images);
 
-        btnUploadImages.setOnClickListener(new View.OnClickListener() {
+        btnMoreImages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openGallery();
+                if (imageCount <= 5) {
+                    addImageUrlField();
+                    imageCount++;
+                }
             }
         });
 
@@ -64,6 +76,8 @@ public class AddProducts extends AppCompatActivity {
                 productEntity.setImageUrl(etImageUrl.getText().toString());
                 productEntity.setDescription(etDescription.getText().toString());
                 productEntity.setImagePaths(selectedImagePaths);
+                saveImageUrls();
+                productEntity.setImageUrls(imageUrls);
 
 
                 if (validateProductData(productEntity)) {
@@ -105,29 +119,39 @@ public class AddProducts extends AppCompatActivity {
         });
     }
 
-    private void openGallery() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/*");
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        startActivityForResult(Intent.createChooser(intent, "Select Images"), PICK_IMAGES_REQUEST_CODE);
+    private void addImageUrlField() {
+        TextInputLayout imageUrlLayout = new TextInputLayout(this);
+        imageUrlLayout.setVisibility(View.VISIBLE);
+        imageUrlLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        ));
+        imageUrlLayout.setHint("Image URL " + imageCount);
+        TextInputEditText imageUrlEditText = new TextInputEditText(imageUrlLayout.getContext());
+        imageUrlEditText.setMaxLines(3);
+        imageUrlEditText.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        ));
+        imageUrlEditText.setId(View.generateViewId());
+        imageUrlLayout.setStartIconDrawable(getResources().getDrawable(R.drawable.ic_image));
+        imageUrlLayout.addView(imageUrlEditText);
+        LinearLayout imagesLayout = findViewById(R.id.layout_images);
+        imagesLayout.addView(imageUrlLayout);
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == PICK_IMAGES_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-            selectedImagePaths.clear();
-
-            if (data.getClipData() != null) {
-                int count = data.getClipData().getItemCount();
-                for (int i = 0; i < count; i++) {
-                    selectedImagePaths.add(data.getClipData().getItemAt(i).getUri().toString());
+    private void saveImageUrls() {
+        imageUrls.clear(); // Clear existing URLs before adding
+        for (int i = 0; i < imagesLayout.getChildCount(); i++) {
+            View childView = imagesLayout.getChildAt(i);
+            if (childView instanceof TextInputLayout) {
+                TextInputLayout textInputLayout = (TextInputLayout) childView;
+                EditText editText = textInputLayout.getEditText();
+                if (editText != null) {
+                    String imageUrl = editText.getText().toString();
+                    if (!TextUtils.isEmpty(imageUrl)) {
+                        imageUrls.add(imageUrl);
+                    }
                 }
-            } else if (data.getData() != null) {
-                selectedImagePaths.add(data.getData().toString());
-            }
-            for (String imagePath : selectedImagePaths) {
-                System.out.println("Selected Image Path: " + imagePath);
             }
         }
     }

@@ -8,7 +8,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 
 import android.Manifest;
 import android.app.Activity;
@@ -25,8 +24,6 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,7 +32,6 @@ public class product_details extends AppCompatActivity {
     TextView name, price, discountedPrice, description;
     MaterialButton addToCart;
     ProductViewModel productViewModel;
-    ViewPager2 viewPager;
     ImageAdapter adapter;
     private static final int YOUR_REQUEST_CODE = 3000;
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE =1000;
@@ -53,9 +49,6 @@ public class product_details extends AppCompatActivity {
         description = findViewById(R.id.tv_description);
         addToCart = findViewById(R.id.btn_addtocart);
         RecyclerView recyclerView = findViewById(R.id.recycler);
-        ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add("");
-
 
 
         Intent intent = getIntent();
@@ -66,13 +59,16 @@ public class product_details extends AppCompatActivity {
         String productDescription = intent.getStringExtra("description");
         String productImage = intent.getStringExtra("image");
         String[] imagePathsArray = intent.getStringArrayExtra("imagePaths");
-        List<String> imagePathsList = Arrays.asList(imagePathsArray);
+        String[] imageUrlsArray = intent.getStringArrayExtra("imageUrls");
+        List<String> imagePathsList = Arrays.asList(imageUrlsArray);
+
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             adapter = new ImageAdapter(product_details.this, imagePathsList);
             recyclerView.setAdapter(adapter);
         } else {
             ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
         }
+
         adapter.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
             @Override
             public void onClick(ImageView imageView, String path) {
@@ -113,7 +109,6 @@ public class product_details extends AppCompatActivity {
                 });
             }
         });
-
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -138,5 +133,4 @@ public class product_details extends AppCompatActivity {
             }
         }
     }
-
 }

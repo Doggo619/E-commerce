@@ -78,6 +78,8 @@ public class BuyerActivity extends AppCompatActivity {
                     intent.putExtra("description", product.getDescription());
                     String[] imagePathsArray = product.getImagePaths().toArray(new String[0]);
                     intent.putExtra("imagePaths", imagePathsArray);
+                    String[] imageUrlsArray = product.getImageUrls().toArray(new String[0]);
+                    intent.putExtra("imageUrls", imageUrlsArray);
                     startActivity(intent);
                 }
             }

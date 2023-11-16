@@ -28,9 +28,6 @@ import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
-
-
 public class MainActivity extends AppCompatActivity {
     private TextInputLayout tvMail, tvPassword, tvName, tvOtp;
     private TextInputEditText etMail, etPassword, etName, etOtp;
@@ -40,9 +37,6 @@ public class MainActivity extends AppCompatActivity {
     private MaterialButton btnSignup, btnSignin;
     private Button sendOtp;
     private String generatedOtp;
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

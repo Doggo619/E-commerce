@@ -24,6 +24,7 @@ public class ProductEntity {
     private String imageUrl;
     private String description;
     private List<String> imagePaths;
+    private List<String> imageUrls;
     private boolean isInCart;
     private int quantity;
 
@@ -94,6 +95,13 @@ public class ProductEntity {
         this.imagePaths = imagePaths;
     }
 
+    public List<String> getImageUrls() {
+        return imageUrls;
+    }
+
+    public void setImageUrls(List<String> imageUrls) {
+        this.imageUrls = imageUrls;
+    }
 
     public boolean isInCart() {
         return isInCart;
