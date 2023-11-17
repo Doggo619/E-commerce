@@ -61,10 +61,11 @@ public class ViewProducts extends AppCompatActivity implements ProductAdapter.On
             String image = product.getImageUrl();
             String description = product.getDescription();
             List<String> imageUrls = product.getImageUrls();
-            String imageUrl2 =  imageUrls.get(0);
-            String imageUrl3 =  imageUrls.get(1);
-            String imageUrl4 =  imageUrls.get(2);
-            String imageUrl5 =  imageUrls.get(3);
+            String imageUrl2 = (imageUrls.size() > 0) ? imageUrls.get(0) : "";
+            String imageUrl3 = (imageUrls.size() > 1) ? imageUrls.get(1) : "";
+            String imageUrl4 = (imageUrls.size() > 2) ? imageUrls.get(2) : "";
+            String imageUrl5 = (imageUrls.size() > 3) ? imageUrls.get(3) : "";
+
 
             Intent intent = new Intent(ViewProducts.this, EditProductActivity.class);
             intent.putExtra("productId", product.getId());
