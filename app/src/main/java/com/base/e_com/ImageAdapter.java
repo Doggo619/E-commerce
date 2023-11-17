@@ -29,7 +29,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     List<String> imageUrls;
 
     OnItemClickListener onItemClickListener;
-    private final static int YOUR_REQUEST_CODE = 1000, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 3000;
     private ViewHolder currentHolder;
 
     public ImageAdapter(Context context, List<String> imageUrls) {
@@ -68,15 +67,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
                 }
             }
     }
-    public ViewHolder getCurrentHolder() {
-        return currentHolder;
-    }
-
-    public List<String> getImagePaths() {
-        return imageUrls;
-    }
-
-
     private void loadAndDisplayImage(ViewHolder holder, String imageUrl) {
         Log.d("ImageAdapter", "Loading image: " + imageUrl);
 

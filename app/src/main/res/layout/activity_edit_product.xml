@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".EditProductActivity">
@@ -34,15 +39,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="30dp"
-        android:textStyle="italic"
-        android:textSize="15sp"
         android:text="Please Update the product details"
+        android:textColor="#28A505"
+        android:textSize="15sp"
+        android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        android:textColor="#28A505"/>
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tv_productName"
@@ -135,6 +141,91 @@
             android:maxLines="3"/>
     </com.google.android.material.textfield.TextInputLayout>
 
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tv_image2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="30dp"
+        android:hint="Image URL2"
+        app:endIconMode="clear_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_image"
+        app:startIconDrawable="@drawable/ic_image">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_image2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="3"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tv_image3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="30dp"
+        android:hint="Image URL3"
+        app:endIconMode="clear_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_image2"
+        app:startIconDrawable="@drawable/ic_image">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_image3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="3"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tv_image4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="30dp"
+        android:hint="Image URL4"
+        app:endIconMode="clear_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_image3"
+        app:startIconDrawable="@drawable/ic_image">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_image4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="3"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tv_image5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="30dp"
+        android:hint="Image URL5"
+        app:endIconMode="clear_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_image4"
+        app:startIconDrawable="@drawable/ic_image">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_image5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="3"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tv_description"
         android:layout_width="match_parent"
@@ -148,7 +239,7 @@
         app:helperTextTextColor="#F30909"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_image"
+        app:layout_constraintTop_toBottomOf="@+id/tv_image5"
         app:startIconDrawable="@drawable/ic_description">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -176,3 +267,4 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_description" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -57,8 +57,6 @@ public class product_details extends AppCompatActivity {
         String productPrice = intent.getStringExtra("price");
         String productDiscountPrice = intent.getStringExtra("discountedPrice");
         String productDescription = intent.getStringExtra("description");
-        String productImage = intent.getStringExtra("image");
-        String[] imagePathsArray = intent.getStringArrayExtra("imagePaths");
         String[] imageUrlsArray = intent.getStringArrayExtra("imageUrls");
         List<String> imagePathsList = Arrays.asList(imageUrlsArray);
 
@@ -82,10 +80,6 @@ public class product_details extends AppCompatActivity {
         price.setPaintFlags(price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         description.setText(productDescription);
 
-//        Picasso.get()
-//                .load(productImage)
-//                .error(R.drawable.ic_email)
-//                .into(image);
         productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
 
         addToCart.setOnClickListener(new View.OnClickListener() {

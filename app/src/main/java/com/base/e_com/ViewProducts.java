@@ -60,6 +60,11 @@ public class ViewProducts extends AppCompatActivity implements ProductAdapter.On
             String discountedPrice = product.getDiscountedPrice();
             String image = product.getImageUrl();
             String description = product.getDescription();
+            List<String> imageUrls = product.getImageUrls();
+            String imageUrl2 =  imageUrls.get(0);
+            String imageUrl3 =  imageUrls.get(1);
+            String imageUrl4 =  imageUrls.get(2);
+            String imageUrl5 =  imageUrls.get(3);
 
             Intent intent = new Intent(ViewProducts.this, EditProductActivity.class);
             intent.putExtra("productId", product.getId());
@@ -69,6 +74,10 @@ public class ViewProducts extends AppCompatActivity implements ProductAdapter.On
             intent.putExtra("discountedPrice", discountedPrice);
             intent.putExtra("image", image);
             intent.putExtra("description", description);
+            intent.putExtra("imageUrl2", imageUrl2);
+            intent.putExtra("imageUrl3", imageUrl3);
+            intent.putExtra("imageUrl4", imageUrl4);
+            intent.putExtra("imageUrl5", imageUrl5);
 
             startActivity(intent);
         } else {
